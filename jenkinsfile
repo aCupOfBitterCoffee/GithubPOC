@@ -1,0 +1,61 @@
+pipeline {
+    agent any
+
+    environment {
+        // 定义密钥库路径和别名
+        KEYSTORE_PATH = 'my-release-key.jks' // 如果密钥库在 Jenkins 工作目录中
+        // KEYSTORE_PATH = credentials('my-keystore-credentials-id') // 如果使用 Jenkins 凭据管理
+        KEY_ALIAS = 'my-key-alias'
+        KEY_PASSWORD = 'your_key_password'
+        STORE_PASSWORD = 'your_keystore_password'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // 从版本控制系统中检出代码
+                checkout scm
+            }
+        }
+
+        stage('Build and Sign APK') {
+            steps {
+                script {
+                    // 设置 Gradle 构建命令
+                    def signingProps = """
+                        STORE_FILE=${KEYSTORE_PATH}
+                        KEY_ALIAS=${KEY_ALIAS}
+                        KEY_PASSWORD=${KEY_PASSWORD}
+                        STORE_PASSWORD=${STORE_PASSWORD}
+                    """.trim()
+
+                    // 将签名信息写入临时文件
+                    def signingFile = "signing.properties"
+                    writeFile file: signingFile, text: signingProps
+
+                    // 执行 Gradle 构建命令
+                    sh "./gradlew assembleRelease -Pandroid.injected.signing.store.file=${signingFile} -Pandroid.injected.signing.store.password=${STORE_PASSWORD} -Pandroid.injected.signing.key.alias=${KEY_ALIAS} -Pandroid.injected.signing.key.password=${KEY_PASSWORD}"
+
+                    // 删除临时签名文件
+                    sh "rm -f ${signingFile}"
+                }
+            }
+        }
+
+        stage('Archive APK') {
+            steps {
+                // 归档生成的 APK 文件
+                archiveArtifacts artifacts: '**/app-release.apk', allowEmptyArchive: true
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and sign process completed successfully.'
+        }
+        failure {
+            echo 'Build and sign process failed.'
+        }
+    }
+}
