@@ -1,6 +1,13 @@
-apply plugin: "com.android.application"
-apply plugin: "org.jetbrains.kotlin.android"
-apply plugin: "org.jetbrains.kotlin.plugin.compose"
+//apply plugin: "com.android.application"
+//apply plugin: "org.jetbrains.kotlin.android"
+//apply plugin: "org.jetbrains.kotlin.plugin.compose"
+
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.compose'
+    id 'kotlinx-serialization'
+}
 
 android {
     namespace 'com.example.githubpoc'
@@ -45,6 +52,9 @@ dependencies {
     implementation libs.androidx.ui.tooling.preview
     implementation libs.androidx.material3
     implementation libs.androidx.ui.navigation
+    implementation libs.kotlinx.serialization.json
+    implementation libs.kotlinx.coroutines.android
+    testImplementation libs.kotlinx.coroutines.test
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
