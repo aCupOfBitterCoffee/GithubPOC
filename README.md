@@ -5,7 +5,8 @@
 - User can browse a GitHub repository with information up to you to decide but not launching another browser
 - User can search repository according to programming languages and order by the stars.
 - User can logon to his/her GitHub account and arrives at the profile's repository list. The authentication status survives between application launches. An authenticated user can raise issue to his/her repositories.
-- User can logoff and return to the anonymous status. The application support both portrait and landscape modes Proper Error Handling, i.e. when network is temporarily down.
+- User can logoff and return to the anonymous status.
+- The application support both portrait and landscape modes Proper Error Handling, i.e. when network is temporarily down.
 
 ## Technical Requirement
 - Hosted on GitHub with proper introduction and build/run/test instruction and stable release APK

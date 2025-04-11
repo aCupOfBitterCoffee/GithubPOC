@@ -4,44 +4,45 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.githubpoc.ui.theme.GithubPOCTheme
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.githubpoc.ui.screen.HomeScreen
+import com.example.githubpoc.ui.screen.LoginScreen
+import com.example.githubpoc.ui.screen.RepositoryListScreen
+import com.example.githubpoc.ui.screen.RepositoryScreen
+import com.example.githubpoc.utils.SessionManager
+import com.example.githubpoc.viewmodel.HomeViewModel
 
 class MainActivity : ComponentActivity() {
+    private val sessionManager = SessionManager()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
-            GithubPOCTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            SetupUI()
+        }
+    }
+
+    @Composable
+    private fun SetupUI() {
+        MaterialTheme {
+            Surface(
+                color = MaterialTheme.colorScheme.background
+            ) {
+                val navController = rememberNavController()
+                NavHost(navController, startDestination = "home_screen") {
+                    composable("home_screen") { HomeScreen(navController, HomeViewModel(sessionManager)) }
+                    composable("login_screen") { LoginScreen(navController, sessionManager) }
+                    composable("repository_list_screen") { RepositoryListScreen() }
+                    composable("repository_screen") { RepositoryScreen() }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    GithubPOCTheme {
-        Greeting("Android")
     }
 }
