@@ -7,28 +7,27 @@
 ```mermaid
 graph TD
     A[启动应用] --> B{登录状态}
-    B -- 已登录 --> C[个人资料页]
+    B -- 已登录 --> C[个人主页]
     B -- 未登录 --> D[匿名主页]
     
-    D --> E[查看趋势仓库]
+    D --> E[查看热门仓库]
     D --> F[搜索仓库]
-    D --> G[查看仓库详情]
     D --> H[登录入口]
     
     C --> I[我的仓库列表]
-    C --> J[提交Issue]
+    I --> J[提交Issue]
     C --> K[注销]
     
-    F --> L[按语言过滤]
-    F --> M[按星标排序]
+    F --> L[按语言过滤（按星标排序）]
+
     
     classDef green fill:#9f6,stroke:#333;
     classDef orange fill:#f96,stroke:#333;
     classDef blue fill:#6af,stroke:#333;
     
     class A,B green
-    class C,D,E,F,G,H orange
-    class I,J,K,L,M blue
+    class C,D,E,F,G,H,I,K orange
+    class J,L,M blue
 ```
 
 ## 登录时序图
