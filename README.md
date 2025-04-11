@@ -5,7 +5,7 @@
 ![Platform](https://img.shields.io/badge/platform-Androd-green.svg)
 ![SDK](https://img.shields.io/badge/SDK-19%2B-green.svg)
 ![Build](https://img.shields.io/badge/Powered%20by-Google Android-blue.svg)
-[![AsPectJ](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](https://github.com/HujiangTechnology/gradle_plugin_android_aspectjx)
+![AsPectJ](https://img.shields.io/badge/license-MIT-yellowgreen.svg)
 ![Chasity Chan](https://img.shields.io/badge/author-Chasity Chan-red.svg)
 
 
