@@ -3,18 +3,18 @@ pipeline {
 
     environment {
         // 定义密钥库路径和别名
-        KEYSTORE_PATH = 'my-release-key.jks' // 如果密钥库在 Jenkins 工作目录中
+        KEYSTORE_PATH = '' // Jenkins工作目录中的my-release-key.jks
         // KEYSTORE_PATH = credentials('my-keystore-credentials-id') // 如果使用 Jenkins 凭据管理
         KEY_ALIAS = 'my-key-alias'
-        KEY_PASSWORD = 'your_key_password'
-        STORE_PASSWORD = 'your_keystore_password'
+        KEY_PASSWORD = '' //key_password
+        STORE_PASSWORD = '' //keystore_password
     }
 
     stages {
         stage('Checkout') {
             steps {
                 // 从版本控制系统中检出代码
-                checkout scm
+                checkout git  //or scm
             }
         }
 
@@ -34,7 +34,11 @@ pipeline {
                     writeFile file: signingFile, text: signingProps
 
                     // 执行 Gradle 构建命令
-                    sh "./gradlew assembleRelease -Pandroid.injected.signing.store.file=${signingFile} -Pandroid.injected.signing.store.password=${STORE_PASSWORD} -Pandroid.injected.signing.key.alias=${KEY_ALIAS} -Pandroid.injected.signing.key.password=${KEY_PASSWORD}"
+                    sh "./gradlew assembleRelease
+                    -Pandroid.injected.signing.store.file=${signingFile}
+                    -Pandroid.injected.signing.store.password=${STORE_PASSWORD}
+                    -Pandroid.injected.signing.key.alias=${KEY_ALIAS}
+                    -Pandroid.injected.signing.key.password=${KEY_PASSWORD}"
 
                     // 删除临时签名文件
                     sh "rm -f ${signingFile}"

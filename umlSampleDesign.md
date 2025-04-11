@@ -1,4 +1,6 @@
-# UML图例
+[TOC]
+
+# UML图例说明
 
 
 
@@ -33,6 +35,12 @@ graph TD
     class H,D blue
 ```
 
+- 橙色模块：公共功能Flow
+- 蓝色模块：匿名用户主页Flow
+- 绿色模块：个人主页Flow
+
+
+
 ## 登录时序图
 
 ```mermaid
@@ -42,19 +50,16 @@ sequenceDiagram
     participant Auth as GitHub Auth Server
     participant API as GitHub API Server
 
+    User->>+App: 输入帐号、密码
     User->>+App: 点击登录按钮
-    App->>+App: 生成PKCE code_verifier和code_challenge
-    App->>+Auth: GET /login/oauth/authorize
-    Note right of Auth: client_id={id}<br/>redirect_uri=myapp://oauth<br/>scope=repo,user<br/>code_challenge={challenge}<br/>state={nonce}
+    App->>-App: 模拟后端进行帐号密码校验
+    Note left of App: 使用特定帐号的预置access_token<br/>所以没有POST认证登录
+    App->>+Auth: GET /octocat
+    Note right of Auth: -H <br/>Authorization={Bearer TOKEN}<br/>X-GitHub-Api-Version=2022-11-28
 
-    Auth-->>User: 显示GitHub登录页面
-    User->>+Auth: 输入账号密码并授权
-    Auth->>+App: 302重定向到myapp://oauth?code={auth_code}&state={nonce}
+    Auth-->>-App: 返回Auth验证结果
+    App-->>User: 显示登录验证结果
     
-    App->>+Auth: POST /login/oauth/access_token
-    Note right of Auth: client_id={id}<br/>code={auth_code}<br/>code_verifier={verifier}
-
-    Auth-->>-App: 返回access_token和scope
     App->>+API: GET /user (携带Authorization头)
     API-->>-App: 返回用户基本信息
 
@@ -67,29 +72,24 @@ sequenceDiagram
 
 
 
-
-
-## 架构图
+## 应用架构的类图
 
 ```mermaid
 classDiagram
     direction BT
 
     class MainActivity {
-        +NavHostController
-        +handleDeepLink()
+        +onCreate()
+    }
+
+    class LoginActivity {
+        +onCreate()
     }
 
     class AuthViewModel {
         -authState: StateFlow<AuthState>
-        +loginWithOAuth()
+        +login(username: String, password: String)
         +logout()
-    }
-
-    class RepoViewModel {
-        -_repoList: MutableStateFlow<List<Repo>>
-        +searchRepos(language: String, sort: SortType)
-        +getTrendingRepos()
     }
 
     class GitHubApiService {
@@ -101,35 +101,14 @@ classDiagram
 
     class ComposeScreen {
         <<Composable>>
-        +HomeScreen()
-        +SearchScreen()
-        +RepoDetailScreen()
-        +ProfileScreen()
+        +Greeting(name: String)
+        +LoginScreen()
     }
 
-    class NavigationGraph {
-        +setupNavGraph()
-    }
-
-    class ErrorHandler {
-        +parseNetworkError()
-        +showErrorSnackbar()
-    }
-
-    class OrientationManager {
-        +isLandscape: Boolean
-        +detectOrientation()
-    }
-
-    MainActivity --> NavigationGraph
-    MainActivity --> OrientationManager
-    ComposeScreen --> RepoViewModel
+    MainActivity --> LoginActivity
+    MainActivity --> ComposeScreen
+    LoginActivity --> ComposeScreen
     ComposeScreen --> AuthViewModel
-    RepoViewModel --> GitHubApiService
     AuthViewModel --> GitHubApiService
-    RepoViewModel --> ErrorHandler
-    AuthViewModel --> ErrorHandler
-    NavigationGraph --> ComposeScreen
-
 ```
 
