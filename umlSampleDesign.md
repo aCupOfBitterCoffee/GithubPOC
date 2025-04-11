@@ -72,27 +72,24 @@ sequenceDiagram
 
 
 
-## 架构图
+## 应用架构的类图
 
 ```mermaid
 classDiagram
     direction BT
 
     class MainActivity {
-        +NavHostController
-        +handleDeepLink()
+        +onCreate()
+    }
+
+    class LoginActivity {
+        +onCreate()
     }
 
     class AuthViewModel {
         -authState: StateFlow<AuthState>
-        +loginWithOAuth()
+        +login(username: String, password: String)
         +logout()
-    }
-
-    class RepoViewModel {
-        -_repoList: MutableStateFlow<List<Repo>>
-        +searchRepos(language: String, sort: SortType)
-        +getTrendingRepos()
     }
 
     class GitHubApiService {
@@ -104,35 +101,14 @@ classDiagram
 
     class ComposeScreen {
         <<Composable>>
-        +HomeScreen()
-        +SearchScreen()
-        +RepoDetailScreen()
-        +ProfileScreen()
+        +Greeting(name: String)
+        +LoginScreen()
     }
 
-    class NavigationGraph {
-        +setupNavGraph()
-    }
-
-    class ErrorHandler {
-        +parseNetworkError()
-        +showErrorSnackbar()
-    }
-
-    class OrientationManager {
-        +isLandscape: Boolean
-        +detectOrientation()
-    }
-
-    MainActivity --> NavigationGraph
-    MainActivity --> OrientationManager
-    ComposeScreen --> RepoViewModel
+    MainActivity --> LoginActivity
+    MainActivity --> ComposeScreen
+    LoginActivity --> ComposeScreen
     ComposeScreen --> AuthViewModel
-    RepoViewModel --> GitHubApiService
     AuthViewModel --> GitHubApiService
-    RepoViewModel --> ErrorHandler
-    AuthViewModel --> ErrorHandler
-    NavigationGraph --> ComposeScreen
-
 ```
 
