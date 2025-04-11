@@ -4,9 +4,9 @@
 
 ![Platform](https://img.shields.io/badge/platform-Androd-green.svg)
 ![SDK](https://img.shields.io/badge/SDK-19%2B-green.svg)
-![Build](https://img.shields.io/badge/Powered%20by-Google Android-blue.svg)
+![Build](https://img.shields.io/badge/Powered%20by-GoogleAndroid-blue.svg)
 ![AsPectJ](https://img.shields.io/badge/license-MIT-yellowgreen.svg)
-![Chasity Chan](https://img.shields.io/badge/author-Chasity Chan-red.svg)
+![Chasity Chan](https://img.shields.io/badge/author-ChasityChan-red.svg)
 
 
 
