@@ -14,9 +14,12 @@ graph TD
     D --> F[搜索仓库]
     D --> H[登录入口]
     
+    C --> E[查看热门仓库]
+    C --> F[搜索仓库]
+    
     C --> I[我的仓库列表]
     I --> J[提交Issue]
-    C --> K[注销]
+    C --> K[注销入口]
     
     F --> L[按语言过滤（按星标排序）]
 
@@ -25,9 +28,9 @@ graph TD
     classDef orange fill:#f96,stroke:#333;
     classDef blue fill:#6af,stroke:#333;
     
-    class A,B green
-    class C,D,E,F,G,H,I,K orange
-    class J,L,M blue
+    class C,I,J,K green
+    class E,F,G,L,A,B orange
+    class H,D blue
 ```
 
 ## 登录时序图
