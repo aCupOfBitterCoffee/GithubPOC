@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -20,6 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.githubpoc.ui.ComposeToolbar
@@ -29,8 +33,8 @@ import com.example.githubpoc.viewmodel.LoginViewModel
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
-    loginViewModel: LoginViewModel
+    loginViewModel: LoginViewModel,
+    backToHome: () -> Unit
 ) {
     val userNameState = remember { mutableStateOf("") }
     val pswState = remember { mutableStateOf("") }
@@ -62,13 +66,16 @@ fun LoginScreen(
                     value = pswState.value,
                     onValueChange = { newText -> pswState.value = newText },
                     label = { Text("Password") },
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(16.dp),
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
                 )
 
                 Button(
                     onClick = {
                         loginViewModel.onLogin(userNameState.value, pswState.value, session?.token)
-                    }
+                    },
+                    Modifier.testTag("LoginButton")
                 ) {
                     Text("Login")
                 }
@@ -103,7 +110,7 @@ fun LoginScreen(
 
             loginState.success == true -> {
                 Toast.makeText(LocalContext.current, "Hello from Toast!", Toast.LENGTH_SHORT).show()
-                navController.navigate("home_screen")
+                backToHome.invoke()
             }
         }
     }

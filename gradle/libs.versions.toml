@@ -12,6 +12,13 @@ okhttp = "4.9.0"
 composeNavigation = "2.7.7"
 kotlinxSerializationJson = "1.8.0"
 coroutines = "1.10.1"
+navigationTestingAndroid = "2.9.0-beta01"
+navigationTest = "2.5.3"
+mockkVersion = "1.14.0"
+navigationTesting = "2.8.9"
+cucumberVersion = "7.18.1"
+firebaseCrashlyticsBuildtools = "3.0.3"
+mockito = "3.10.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,6 +40,14 @@ okhttps = {group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhtt
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+androidx-navigation-testing-android = { group = "androidx.navigation", name = "navigation-testing-android", version.ref = "navigationTestingAndroid" }
+androidx-navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigationTest"}
+mockK = {group = "io.mockk", name = "mockk", version.ref = "mockkVersion"}
+mockK-android = {group = "io.mockk", name = "mockk-android", version.ref = "mockkVersion"}
+navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigationTesting" }
+cucumber-testing = { group = "io.cucumber", name = "cucumber-android", version.ref = "cucumberVersion"}
+firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
+mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

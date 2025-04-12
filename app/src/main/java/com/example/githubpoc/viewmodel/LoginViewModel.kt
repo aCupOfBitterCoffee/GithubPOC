@@ -24,21 +24,21 @@ class LoginViewModel(
     }
 
     fun onLogin(userName: String?, psw: String?, token: String?) {
-        if (userName == null) {
+        if (userName.isNullOrEmpty()) {
             viewModelScope.launch{
                 _loginState.emit(LoginState(null, "Please input username", null))
             }
             return
         }
 
-        if (psw == null) {
+        if (psw.isNullOrEmpty()) {
             viewModelScope.launch{
                 _loginState.emit(LoginState(null, "Please input password", null))
             }
             return
         }
 
-        if (token == null) {
+        if (token.isNullOrEmpty()) {
             viewModelScope.launch{
                 _loginState.emit(LoginState(null, "Get token failed, please restart the app", null))
             }

@@ -42,8 +42,9 @@ import com.example.githubpoc.viewmodel.SearchType
 
 @Composable
 fun RepositoryListScreen(
-    navController: NavController,
-    viewModel: RepositoriesViewModel
+    viewModel: RepositoriesViewModel,
+    navToRepo: () -> Unit,
+    navBack: () -> Unit
 ) {
     val repositoriesState = viewModel.repositoriesState.collectAsState().value
     val selectedSearchType = remember { mutableStateOf(SearchType.TOP_10_POPULAR.value) }
@@ -51,7 +52,9 @@ fun RepositoryListScreen(
 
     Scaffold(
         topBar = {
-            ComposeToolbar("Repository List", true)
+            ComposeToolbar("Repository List", true) {
+                navBack.invoke()
+            }
         }
     ) {
         Column(
@@ -87,7 +90,7 @@ fun RepositoryListScreen(
                 )
 
                 repositoriesState.data != null -> LazyListView(repositoriesState.data) { repo ->
-                    navController.navigate("repository_screen")
+                    navToRepo.invoke()
                     viewModel.onItemClicked(repo)
                 }
             }

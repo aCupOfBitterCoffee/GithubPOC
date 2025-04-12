@@ -9,3 +9,6 @@ val json = Json {
 
 inline fun <reified T: Any> objectFromJson(payload: String): T =
     json.decodeFromString<T>(payload)
+
+inline fun <reified T: Any> objectToJson(t: T): String =
+    json.encodeToString(t)

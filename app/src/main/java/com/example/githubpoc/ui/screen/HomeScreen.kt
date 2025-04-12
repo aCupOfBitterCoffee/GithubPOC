@@ -17,15 +17,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.githubpoc.ui.ComposeToolbar
 import com.example.githubpoc.viewmodel.HomeViewModel
 
 @Composable
 fun HomeScreen(
-    navController: NavController,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    navToTargetScreen: (id:String) -> Unit
 ) {
     homeViewModel.updateState()
     val items = homeViewModel.homeSate.collectAsState().value
@@ -48,12 +47,7 @@ fun HomeScreen(
             items.forEach { item ->
                 Item(item.title) {
                     item.navId?.let {
-                        navController.navigate(it) {
-                            popUpTo(navController.graph.findStartDestination().id){
-                                saveState = true
-                            }
-                            restoreState = true
-                        }
+                        navToTargetScreen.invoke(it)
                     }
 
                     if (item.title == "Log out") {
