@@ -9,17 +9,42 @@ import okhttp3.Response
 class NetworkUtils(private val sessionManager: SessionManager) {
     private val client = OkHttpClient()
 
-    private fun makeNetworkRequest(url: String): String? {
-        val request = Request.Builder()
+    // My Repos
+    fun fetchMyRepos(): String? {
+        val url = "https://api.github.com/user/repos"
+        val requestBuilder = Request.Builder()
             .url(url)
-            .build()
+            .addHeader("Accept", "application/vnd.github.v3+json")
+            .addHeader("Authorization", "Bearer ${sessionManager.token}")
 
-        return try {
-            val response: Response = client.newCall(request).execute()
-            response.body?.string()
-        } catch (e: Exception) {
-            null
+        val response: Response = client.newCall(requestBuilder.build()).execute()
+        var result = response.body?.string()
+        result?.let {
+            if (!it.contains("message") && it.startsWith("[") && it.endsWith("]")) {
+                result = "{\"items\":".plus(it).plus("}")
+            }
         }
+        result?.let {
+            Log.d("fetchRepositoryDetails result:", it)
+        } ?: Log.d("fetchRepositoryDetails result:", "Null")
+        return result
+    }
+
+    // Login with token
+    fun loginWithToken(token: String): String? {
+        val url = "https://api.github.com/octocat"
+        val requestBuilder = Request.Builder()
+            .url(url)
+            .addHeader("Accept", "application/vnd.github.v3+json")
+            .addHeader("Authorization", "Bearer ${token}")
+            .addHeader("X-GitHub-Api-Version", "2022-11-28")
+
+        val response: Response = client.newCall(requestBuilder.build()).execute()
+        val result = response.body?.string()
+        result?.let {
+            Log.d("fetchRepositoryDetails result:", it)
+        } ?: Log.d("fetchRepositoryDetails result:", "Null")
+        return result
     }
 
     // Fetch repos according to the language

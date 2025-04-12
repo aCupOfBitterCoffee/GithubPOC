@@ -20,7 +20,6 @@ class HomeViewModel(private val sessionManager: SessionManager): ViewModel() {
             itemList.add(ListItem(title = "Popular Repositories", navId = "repository_list_screen"))
 
             if (sessionManager.isSessionAvailable()) {
-                itemList.add(ListItem(title = "My Repositories", navId = "repository_list_screen"))
                 itemList.add(ListItem(title = "Log out", navId = null))
             } else {
                 itemList.add(ListItem(title = "Login", navId = "login_screen"))
@@ -28,5 +27,9 @@ class HomeViewModel(private val sessionManager: SessionManager): ViewModel() {
 
             _homeState.emit(itemList)
         }
+    }
+
+    fun onLogOff() {
+        sessionManager.clearSession()
     }
 }

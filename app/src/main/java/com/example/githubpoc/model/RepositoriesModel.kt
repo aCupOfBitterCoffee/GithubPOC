@@ -11,8 +11,6 @@ data class RepositoriesState(
 
 @Serializable
 data class RepositoriesResponse(
-    @SerialName("incomplete_results")
-    val incompleteResults: Boolean?,
     val items: List<RepositoryItem>?
 )
 
