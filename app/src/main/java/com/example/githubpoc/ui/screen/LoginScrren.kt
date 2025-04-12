@@ -109,7 +109,7 @@ fun LoginScreen(
             )
 
             loginState.success == true -> {
-                Toast.makeText(LocalContext.current, "Hello from Toast!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(LocalContext.current, "Success!", Toast.LENGTH_SHORT).show()
                 backToHome.invoke()
             }
         }
