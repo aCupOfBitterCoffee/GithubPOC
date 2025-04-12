@@ -11,8 +11,6 @@ data class RepositoriesState(
 
 @Serializable
 data class RepositoriesResponse(
-    @SerialName("incomplete_results")
-    val incompleteResults: Boolean?,
     val items: List<RepositoryItem>?
 )
 
@@ -20,18 +18,18 @@ data class RepositoriesResponse(
 data class RepositoryItem(
     val id: Long,
     @SerialName("node_id")
-    val nodeId: String?,
+    val nodeId: String? = "",
     val name: String,
     @SerialName("full_name")
-    val fullName: String?,
-    val private: Boolean?,
-    val owner: RepositoryOwner?,
+    val fullName: String? = "",
+    val private: Boolean? = false,
+    val owner: RepositoryOwner? = null,
     @SerialName("html_url")
     val htmlUrl: String,
     val description: String? = "",
     val url: String,
     @SerialName("issues_url")
-    val issuesUrl: String?,
+    val issuesUrl: String? = "",
     @SerialName("stargazers_count")
     val starCount: Long? = 0
 )

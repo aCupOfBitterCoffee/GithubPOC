@@ -2,6 +2,7 @@ package com.example.githubpoc.ui.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -41,8 +42,9 @@ import com.example.githubpoc.viewmodel.SearchType
 
 @Composable
 fun RepositoryListScreen(
-    navController: NavController,
-    viewModel: RepositoriesViewModel
+    viewModel: RepositoriesViewModel,
+    navToRepo: () -> Unit,
+    navBack: () -> Unit
 ) {
     val repositoriesState = viewModel.repositoriesState.collectAsState().value
     val selectedSearchType = remember { mutableStateOf(SearchType.TOP_10_POPULAR.value) }
@@ -50,7 +52,9 @@ fun RepositoryListScreen(
 
     Scaffold(
         topBar = {
-            ComposeToolbar("Repository List", true)
+            ComposeToolbar("Repository List", true) {
+                navBack.invoke()
+            }
         }
     ) {
         Column(
@@ -86,11 +90,15 @@ fun RepositoryListScreen(
                 )
 
                 repositoriesState.data != null -> LazyListView(repositoriesState.data) { repo ->
-                    navController.navigate("repository_screen")
+                    navToRepo.invoke()
                     viewModel.onItemClicked(repo)
                 }
+            }
+        }
 
-                else -> CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+        if (repositoriesState.errorMessage.isNullOrEmpty() && repositoriesState.data == null) {
+            Box {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
         }
     }

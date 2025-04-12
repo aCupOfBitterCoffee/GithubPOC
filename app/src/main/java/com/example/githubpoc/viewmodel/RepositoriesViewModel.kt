@@ -6,6 +6,7 @@ import com.example.githubpoc.model.RepositoriesResponse
 import com.example.githubpoc.model.RepositoriesState
 import com.example.githubpoc.model.RepositoryItem
 import com.example.githubpoc.network.NetworkUtils
+import com.example.githubpoc.utils.SessionManager
 import com.example.githubpoc.utils.objectFromJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-class RepositoriesViewModel(private val networkUtils: NetworkUtils) : ViewModel() {
+class RepositoriesViewModel(
+    private val networkUtils: NetworkUtils,
+    private val sessionManager: SessionManager
+) : ViewModel() {
     private val _repositoriesSate = MutableStateFlow(RepositoriesState(null, null))
     val repositoriesState = _repositoriesSate.asStateFlow()
 
@@ -24,6 +28,9 @@ class RepositoriesViewModel(private val networkUtils: NetworkUtils) : ViewModel(
         get() = ArrayList<String>().apply {
             add(SearchType.TOP_10_POPULAR.value)
             add(SearchType.LANGUAGE.value)
+            if (sessionManager.isSessionAvailable()) {
+                add(SearchType.MY_REPO.value)
+            }
         }
 
     val languageType: List<String>
@@ -49,12 +56,15 @@ class RepositoriesViewModel(private val networkUtils: NetworkUtils) : ViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             _repositoriesSate.emit(RepositoriesState(null, null))
             runCatching {
-                if (searchType == SearchType.LANGUAGE.value) {
-                    languageType?.let {
-                        networkUtils.fetchRepositoriesByLanguage(languageType)
-                    }
-                } else {
-                    networkUtils.fetchTopRepositories()
+                when (searchType) {
+                    SearchType.LANGUAGE.value ->
+                        languageType?.let {
+                            networkUtils.fetchRepositoriesByLanguage(languageType)
+                        }
+
+                    SearchType.MY_REPO.value -> networkUtils.fetchMyRepos()
+
+                    else -> networkUtils.fetchTopRepositories()
                 }
             }.onSuccess { response ->
                 if (response.isNullOrEmpty()) {
@@ -90,8 +100,9 @@ class RepositoriesViewModel(private val networkUtils: NetworkUtils) : ViewModel(
 }
 
 enum class SearchType(val value: String) {
-    TOP_10_POPULAR("Top 10 popular"),
-    LANGUAGE("Language")
+    TOP_10_POPULAR("10 popular"),
+    LANGUAGE("Language"),
+    MY_REPO("My Repos")
 }
 
 enum class LanguageType(val value: String) {

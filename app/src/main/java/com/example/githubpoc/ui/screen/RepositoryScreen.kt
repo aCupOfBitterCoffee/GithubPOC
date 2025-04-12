@@ -19,22 +19,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.example.githubpoc.R
 import com.example.githubpoc.ui.AccompanistWebViewClient
 import com.example.githubpoc.ui.WebView
 import com.example.githubpoc.ui.rememberWebViewNavigator
 import com.example.githubpoc.ui.rememberWebViewState
-import com.example.githubpoc.utils.findActivity
 import com.example.githubpoc.viewmodel.RepositoriesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RepositoryScreen(viewModel: RepositoriesViewModel) {
+fun RepositoryScreen(
+    viewModel: RepositoriesViewModel,
+    navBack: () -> Unit
+) {
     val repo = viewModel.selectedRepository.collectAsState().value
-    val context = LocalContext.current
-    val activity = context.findActivity()
     val navigator = rememberWebViewNavigator()
     val state = rememberWebViewState(url = repo?.htmlUrl ?: "")
 
@@ -51,7 +50,7 @@ fun RepositoryScreen(viewModel: RepositoriesViewModel) {
                         if (navigator.canGoBack) {
                             navigator.navigateBack()
                         } else {
-                            activity?.onBackPressedDispatcher?.onBackPressed()
+                            navBack.invoke()
                         }
                     }) {
                         Icon(
