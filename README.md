@@ -10,12 +10,11 @@
 
 
 ## BDD & TDD & Espresso Test Report
-You can find the [UML of this project](https://github.com/aCupOfBitterCoffee/GithubPOC/tree/main/reports) here.
+You can find the [Test Report](https://github.com/aCupOfBitterCoffee/GithubPOC/tree/main/reports) here.
 
 
 ## UML  Design Diagram
-
-
+You can find the [UML of this project](https://github.com/aCupOfBitterCoffee/GithubPOC/blob/main/umlSampleDesign.md) here.
 
 
 
