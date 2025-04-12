@@ -72,7 +72,7 @@ sequenceDiagram
 
 
 
-## 应用架构的类图
+## 工程架构的类图
 
 ```mermaid
 classDiagram
@@ -92,6 +92,19 @@ classDiagram
         +logout()
     }
 
+    class RepositoriesViewModel {
+        +selectedRepository: StateFlow<Repository?>
+        +fetchRepositories()
+        +selectRepository(repository: Repository)
+    }
+
+    class Repository {
+        +id: Int
+        +name: String
+        +htmlUrl: String
+        +description: String
+    }
+
     class GitHubApiService {
         +getRepositories()
         +searchRepositories()
@@ -99,16 +112,32 @@ classDiagram
         +getUserRepos()
     }
 
-    class ComposeScreen {
+    class RepositoryScreen {
         <<Composable>>
-        +Greeting(name: String)
-        +LoginScreen()
+        +RepositoryScreen(viewModel: RepositoriesViewModel)
+    }
+
+    class WebView {
+        +settings: WebSettings
+        +loadUrl(url: String)
+    }
+
+    class WebSettings {
+        +javaScriptEnabled: Boolean
+    }
+
+    class AccompanistWebViewClient {
+        +onPageStarted(view: WebView, url: String?, favicon: Bitmap?)
     }
 
     MainActivity --> LoginActivity
-    MainActivity --> ComposeScreen
-    LoginActivity --> ComposeScreen
-    ComposeScreen --> AuthViewModel
+    MainActivity --> RepositoryScreen
+    RepositoryScreen --> RepositoriesViewModel
+    RepositoriesViewModel --> Repository
+    RepositoriesViewModel --> GitHubApiService
+    RepositoryScreen --> WebView
+    WebView --> WebSettings
+    RepositoryScreen --> AccompanistWebViewClient
     AuthViewModel --> GitHubApiService
-```
 
+```
