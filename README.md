@@ -9,11 +9,13 @@
 ![Chasity Chan](https://img.shields.io/badge/author-ChasityChan-red.svg)
 
 
+## BDD & TDD & Espresso Test Report
+You can find the [UML of this project](https://github.com/aCupOfBitterCoffee/GithubPOC/tree/main/reports) here.
+
 
 ## UML  Design Diagram
 
 
-You can find the [UML of this project](https://github.com/aCupOfBitterCoffee/GithubPOC/blob/main/umlSampleDesign.md) here.
 
 
 
