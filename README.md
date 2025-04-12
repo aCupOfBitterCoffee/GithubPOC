@@ -9,8 +9,8 @@
 ![Chasity Chan](https://img.shields.io/badge/author-ChasityChan-red.svg)
 
 
-## BDD & TDD & Espresso Test Report
-You can find the [Test Report](https://github.com/aCupOfBitterCoffee/GithubPOC/tree/main/reports) here.
+## BDD & Espresso Test Report
+This project is built by TDD development, and you can view this [Test Report](https://github.com/aCupOfBitterCoffee/GithubPOC/tree/main/reports) here.
 
 
 ## UML  Design Diagram
