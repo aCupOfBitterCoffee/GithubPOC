@@ -11,6 +11,9 @@
 
 ## BDD & Espresso Test Report
 This project is built by TDD development, and you can view this [Test Report](https://github.com/aCupOfBitterCoffee/GithubPOC/tree/main/reports) here.
+<img width="1332" alt="截屏2025-04-12 21 00 52" src="https://github.com/user-attachments/assets/1e7c0022-c915-45fb-8898-08206eceedb7" />
+<img width="1082" alt="截屏2025-04-12 21 00 06" src="https://github.com/user-attachments/assets/fedfc066-0eb1-473f-b322-f7b9002dd9bc" />
+
 
 
 ## UML  Design Diagram
